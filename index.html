@@ -4,27 +4,70 @@
   <meta charset="UTF-8">
   <title>Login</title>
   <link rel="stylesheet" href="style1.css">
+  <style>
+    .container {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+      background-color: #f9f9f9;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 90%;
+      padding: 8px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h2>Login</h2>
     <form id="loginForm">
-      <label>Name: <input type="text" id="name" required></label><br>
-      <label>Password: <input type="password" id="password" required></label><br>
+      <label>Name:<br> <input type="text" id="name" placeholder="Enter your name" required></label><br>
+      <label>Password:<br> <input type="password" id="password" placeholder="Enter your password" required></label><br>
       <button type="submit">Login</button>
     </form>
   </div>
 
   <script>
+    // If user already logged in, redirect to Form 1
+    if(localStorage.getItem("isLoggedIn") === "true"){
+      window.location.href = "form1.html";
+    }
+
     document.getElementById("loginForm").addEventListener("submit", function(e){
       e.preventDefault();
-      // Simple login validation (demo only)
-      const name = document.getElementById("name").value;
-      const password = document.getElementById("password").value;
+
+      const name = document.getElementById("name").value.trim();
+      const password = document.getElementById("password").value.trim();
+
       if(name && password){
-        // Save login info if needed
+        // Set login flag and optionally save username
+        localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("userName", name);
-        // Redirect to Form 1 after login
+
+        // Redirect to first form
         window.location.href = "form1.html";
       } else {
         alert("Please fill both fields.");
