@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Results</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #eee;
+    }
+    h3 {
+      margin-top: 30px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Final Results</h2>
+    <div id="results"></div>
+    <p class="disclaimer">
+      Disclaimer: This quiz is not a diagnostic tool and does not provide medical advice.
+      It is for self-reflection only.
+    </p>
+  </div>
+
+  <script>
+    function renderTable(title, results) {
+      if (!results) return "";
+      let rows = results.map(r => {
+        const dev = r.tier === "Development Priority" ? "✓" : "";
+        const need = r.tier === "Need Attention" ? "✓" : "";
+        const str = r.tier === "Strength" ? "✓" : "";
+        return `
+          <tr>
+            <td>${r.category}</td>
+            <td>${r.score}</td>
+            <td>${dev}</td>
+            <td>${need}</td>
+            <td>${str}</td>
+          </tr>
+        `;
+      }).join("");
+
+      return `
+        <h3>${title}</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Score</th>
+              <th>Development Priority</th>
+              <th>Need Attention</th>
+              <th>Strength</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    // Pull results from localStorage
+    const form1 = JSON.parse(localStorage.getItem("form1CategoryResults"));
+    const form2 = JSON.parse(localStorage.getItem("form2CategoryResults"));
+    const form3 = JSON.parse(localStorage.getItem("form3CategoryResults"));
+
+    // Render all results
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML =
+      (form1 ? renderTable("Form 1 - Emotional Intelligence", form1) : "") +
+      (form2 ? renderTable("Form 2 - VAK personality test", form2) : "") +
+      (form3 ? renderTable("Form 3 - Representational System Preference Test", form3) : "");
+  </script>
+</body>
+</html>
