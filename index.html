@@ -2,23 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login - Mental Wellbeing Quiz</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="script.js"></script>
+  <title>Login</title>
+  <link rel="stylesheet" href="style1.css">
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to the Mental Wellbeing Quiz</h1>
+    <h2>Login</h2>
     <form id="loginForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" required>
-
-      <label for="password">Password:</label>
-      <input type="password" id="password" required>
-
+      <label>Name: <input type="text" id="name" required></label><br>
+      <label>Password: <input type="password" id="password" required></label><br>
       <button type="submit">Login</button>
     </form>
   </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      // Simple login validation (demo only)
+      const name = document.getElementById("name").value;
+      const password = document.getElementById("password").value;
+      if(name && password){
+        // Save login info if needed
+        localStorage.setItem("userName", name);
+        // Redirect to Form 1 after login
+        window.location.href = "form1.html";
+      } else {
+        alert("Please fill both fields.");
+      }
+    });
+  </script>
 </body>
 </html>
-
