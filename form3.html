@@ -4,96 +4,219 @@
   <meta charset="UTF-8">
   <title>Form 3 - Detailed Learning Preference</title>
   <style>
-    /* Inline CSS for quick presentation improvement */
-    .question-card {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      background-color: #f9f9f9;
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
     }
-    .question-card p {
+
+    .form-container {
+      width: 800px;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #1a3c57;
+    }
+
+    .question-block {
+      margin-bottom: 30px;
+      padding: 20px;
+      border-left: 3px solid #1a3c57;
+      border-right: 3px solid #1a3c57;
+      border-top:  3px solid #1a3c57;
+      border-bottom:  3px solid #1a3c57;
+      border-radius: 12px;
+      background-color: #fdfdfd;
+    }
+
+    .question-block p {
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      color: #163248;
     }
-    .option-group label {
-      display: block;
-      margin: 5px 0;
+
+    .subsection {
+      display: grid;
+      grid-template-columns: 1fr 80px; /* sentence + aligned input */
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 12px;
     }
-    input[type=number] {
-      width: 50px;
-      padding: 3px;
-      margin-left: 10px;
+
+    .subsection p {
+      margin: 0;
+      font-weight: normal;
+      color: #000;
     }
+
+    .subsection input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #1a3c57;
+      text-align: center;
+      font-size: 14px;
+      
+    }
+
     button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 5px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
       border: none;
-      background-color: #4CAF50;
-      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #1a3c57;
+      color: #ffffff;
       cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
     }
+
     button:hover {
-      background-color: #45a049;
+      background-color: #163248;
+      transform: translateY(-2px);
     }
   </style>
-  <script defer src="script1.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h2>Form 3: Detailed Learning Preference</h2>
-    <p>For each of the following statements, please place a number next to every phrase. Use the following system to indicate your preferences:</p>
-    <ul>
-      <li>1 = Least descriptive of you</li>
-      <li>2 = Next best</li>
-      <li>3 = Next best description</li>
-      <li>4 = Closest to describing you</li>
+  <div class="form-container">
+    <h2>Form 3 - Detailed Learning Preference</h2>
+    <p class="form-description">
+      For each of the following statements, please place a number next to every phrase. 
+      Use the following system to indicate your preferences:
+    </p>
+    <ul style="list-style-type:square;">
+      <b><li>1 : Least descriptive of you</li>
+      <li>2 : Next best</li>
+      <li>3 : Next best description</li>
+      <li>4 : Closest to describing you</li></b>
     </ul>
 
     <form id="form3">
 
       <!-- Question 1 -->
-      <p>1. I make important decisions based on:</p>
-      <label>the right gut level feelings: <input type="number" name="q1_K" min="1" max="4" required></label><br>
-      <label>which way sounds the best and resonates for you: <input type="number" name="q1_A" min="1" max="4" required></label><br>
-      <label>what looks best to me after clearly seeing the issues: <input type="number" name="q1_V" min="1" max="4" required></label><br>
-      <label>precise review and study of the issues: <input type="number" name="q1_Ad" min="1" max="4" required></label>
+      <div class="question-block">
+        <p>1. I make important decisions based on:</p>
+        <div class="subsection">
+          <span>the right gut level feelings:</span>
+          <input type="number" name="q1_K" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>which way sounds the best and resonates for you:</span>
+          <input type="number" name="q1_A" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>what looks best to me after clearly seeing the issues:</span>
+          <input type="number" name="q1_V" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>precise review and study of the issues:</span>
+          <input type="number" name="q1_Ad" min="1" max="4" required>
+        </div>
+      </div>
 
       <!-- Question 2 -->
-      <p>2. During an argument, I am most likely to be influenced by:</p>
-      <label>the loudness or softness of the other person's tone of voice: <input type="number" name="q2_A" min="1" max="4" required></label><br>
-      <label>whether or not I can see the other person's point of view: <input type="number" name="q2_V" min="1" max="4" required></label><br>
-      <label>the logic of the other person's argument: <input type="number" name="q2_Ad" min="1" max="4" required></label><br>
-      <label>whether or not I am in touch with the other person's feelings: <input type="number" name="q2_K" min="1" max="4" required></label>
+      <div class="question-block">
+        <p>2. During an argument, I am most likely to be influenced by:</p>
+        <div class="subsection">
+          <span>the loudness or softness of the other person's tone of voice:</span>
+          <input type="number" name="q2_A" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>whether or not I can see the other person's point of view:</span>
+          <input type="number" name="q2_V" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>the logic of the other person's argument:</span>
+          <input type="number" name="q2_Ad" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>whether or not I am in touch with the other person's feelings:</span>
+          <input type="number" name="q2_K" min="1" max="4" required>
+        </div>
+      </div>
 
       <!-- Question 3 -->
-      <p>3. I mostly like to be aware of the following in conversation:</p>
-      <label>the way people hold themselves and interesting facial expressions: <input type="number" name="q3_V" min="1" max="4" required></label><br>
-      <label>the beautiful feelings they and I share: <input type="number" name="q3_K" min="1" max="4" required></label><br>
-      <label>the words I and they choose and whether it all makes good sense: <input type="number" name="q3_Ad" min="1" max="4" required></label><br>
-      <label>the sounds and intonations that come from the lovely tone of voice: <input type="number" name="q3_A" min="1" max="4" required></label>
+      <div class="question-block">
+        <p>3. I mostly like to be aware of the following in conversation:</p>
+        <div class="subsection">
+          <span>the way people hold themselves and interesting facial expressions:</span>
+          <input type="number" name="q3_V" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>the beautiful feelings they and I share:</span>
+          <input type="number" name="q3_K" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>the words I and they choose and whether it all makes good sense:</span>
+          <input type="number" name="q3_Ad" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>the sounds and intonations that come from the lovely tone of voice:</span>
+          <input type="number" name="q3_A" min="1" max="4" required>
+        </div>
+      </div>
 
       <!-- Question 4 -->
-      <p>4. If I had the choice of these in order, first I would like to:</p>
-      <label> (find the ideal volume and tuning on a stereo system): <input type="number" name="q4_A" min="1" max="4" required></label><br>
-      <label> (select the most intellectually relevant point in an interesting subject): <input type="number" name="q4_Ad" min="1" max="4" required></label><br>
-      <label> (select the most comfortable furniture): <input type="number" name="q4_K" min="1" max="4" required></label><br>
-      <label> (look around and take in the decor, pictures and how the room looks before doing anything else): <input type="number" name="q4_V" min="1" max="4" required></label>
+      <div class="question-block">
+        <p>4. If I had the choice of these in order, first I would like to:</p>
+        <div class="subsection">
+          <span>find the ideal volume and tuning on a stereo system:</span>
+          <input type="number" name="q4_A" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>select the most intellectually relevant point in an interesting subject:</span>
+          <input type="number" name="q4_Ad" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>select the most comfortable furniture:</span>
+          <input type="number" name="q4_K" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>look around and take in the decor, pictures and how the room looks before doing anything else:</span>
+          <input type="number" name="q4_V" min="1" max="4" required>
+        </div>
+      </div>
 
       <!-- Question 5 -->
-      <p>5. Which describes your room that you live in:</p>
-      <label>The hi-fi is very prominent and you have an excellent collection: <input type="number" name="q5_A" min="1" max="4" required></label><br>
-      <label>It's a practical layout and things are situated in an excellent location: <input type="number" name="q5_Ad" min="1" max="4" required></label><br>
-      <label>The feel of the place is the most important to you: <input type="number" name="q5_K" min="1" max="4" required></label><br>
-      <label>The colours you choose and the way a room looks are most important: <input type="number" name="q5_V" min="1" max="4" required></label>
+      <div class="question-block">
+        <p>5. Which describes your room that you live in:</p>
+        <div class="subsection">
+          <span>The hi-fi is very prominent and you have an excellent collection:</span>
+          <input type="number" name="q5_A" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>It's a practical layout and things are situated in an excellent location:</span>
+          <input type="number" name="q5_Ad" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>The feel of the place is the most important to you:</span>
+          <input type="number" name="q5_K" min="1" max="4" required>
+        </div>
+        <div class="subsection">
+          <span>The colours you choose and the way a room looks are most important:</span>
+          <input type="number" name="q5_V" min="1" max="4" required>
+        </div>
+      </div>
 
-      <br><br>
-      <button type="submit">Finish</button>
+      <br>
+      <button type="submit">Submit Quiz 3</button>
     </form>
   </div>
+
+
+<!-- Your script file -->
+<script type="module" src="script.js"></script>
 </body>
 </html>
-
-
-
