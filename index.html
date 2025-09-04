@@ -2,77 +2,146 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="style1.css">
+  <title>Mental Health Quiz - Login</title>
+  <script src="script1.js" defer></script>
   <style>
-    .container {
-      max-width: 400px;
-      margin: 80px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      text-align: center;
-      background-color: #f9f9f9;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input {
-      width: 90%;
-      padding: 8px;
-      margin: 10px 0;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    button {
-      padding: 8px 16px;
-      margin-top: 10px;
-      cursor: pointer;
-      border-radius: 4px;
-      border: none;
-      background-color: #4CAF50;
-      color: white;
-      font-weight: bold;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    h2 {
-      margin-bottom: 20px;
-    }
+   body {
+  font-family: Arial, sans-serif;
+  background-color: #f9fafb; /* Cool Cream background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  width: 380px;
+  background: #ffffff; /* White card */
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers inner content */
+}
+
+.container h2 {
+  margin-bottom: 25px;
+  color: #1a3c57; /* Dark Blue */
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.input-box {
+  width: 100%; /* ensures inputs align with button */
+  margin-bottom: 18px;
+}
+
+.input-box label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #000000; /* Black text */
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #cccccc; /* Neutral gray border */
+  font-size: 14px;
+  transition: border 0.3s, box-shadow 0.3s;
+  box-sizing: border-box; /* prevents overflow */
+}
+
+.input-box input:focus {
+  border-color: #1a3c57;
+  box-shadow: 0 0 6px rgba(26, 60, 87, 0.3);
+  outline: none;
+}
+
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #1a3c57;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #163248;
+  transform: translateY(-2px);
+}
+#loginForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* keeps inputs centered */
+}
+#loginForm .input-box {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Login</h2>
+    <h2>Welcome to the Mental Health Quiz</h2>
+
+    <!-- LOGIN FORM -->
     <form id="loginForm">
-      <label>Name:<br> <input type="text" id="name" placeholder="Enter your name" required></label><br>
-      <label>Password:<br> <input type="password" id="password" placeholder="Enter your password" required></label><br>
-      <button type="submit">Login</button>
+      <div class="input-box">
+        <label for="email">Enter Your Email:</label>
+        <input type="email" id="email" required>
+      </div>
+
+      <div class="input-box">
+        <label for="password">Enter Password:</label>
+        <input type="password" id="password" required>
+      </div>
+
+      <button type="submit">Login & Start Quiz</button>
     </form>
+
+    <p id="showSignup">
+      Don’t have an account? <a href="#" id="toggleSignup">Sign up here</a>
+    </p>
+
+    <!-- SIGNUP FORM (hidden by default) -->
+    <form id="signupForm" style="display:none; margin-top:20px;">
+      <div class="input-box">
+        <label for="signupEmail">Enter Your Email:</label>
+        <input type="email" id="signupEmail" required>
+      </div>
+
+      <div class="input-box">
+        <label for="signupPassword">Enter Password:</label>
+        <input type="password" id="signupPassword" required>
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <p id="backToLogin" style="display:none;">
+      Already have an account? <a href="#">Login here</a>
+    </p>
   </div>
 
-  <script>
-    // If user already logged in, redirect to Form 1
-    if(localStorage.getItem("isLoggedIn") === "true"){
-      window.location.href = "form1.html";
-    }
-
-    document.getElementById("loginForm").addEventListener("submit", function(e){
-      e.preventDefault();
-
-      const name = document.getElementById("name").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if(name && password){
-        // Set login flag and optionally save username
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userName", name);
-
-        // Redirect to first form
-        window.location.href = "form1.html";
-      } else {
-        alert("Please fill both fields.");
-      }
-    });
-  </script>
+  <!-- Your script file -->
+  <script type="module" src="script1.js"></script>
 </body>
+
 </html>
+
