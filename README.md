@@ -5,3 +5,5 @@ VAK personality(or learning style) preferences
 <img width="1920" height="1020" alt="Screenshot 2025-09-04 132500" src="https://github.com/user-attachments/assets/47112e26-56b3-4ca7-b1bc-ca4efe908371" />
 <img width="1920" height="1020" alt="Screenshot 2025-09-04 132450" src="https://github.com/user-attachments/assets/c17504d2-2ae5-4f0d-baaa-1e647677538a" />
 <img width="1920" height="1020" alt="Screenshot 2025-09-04 132425" src="https://github.com/user-attachments/assets/cd945926-695e-43b5-88a9-bde02350fd40" />
+
+<img width="1920" height="1020" alt="Screenshot 2025-09-04 132415" src="https://github.com/user-attachments/assets/abc3afed-7dd4-4b4c-b1eb-b1468037c8ba" />
