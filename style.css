@@ -1,43 +1,5 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f9;
-  margin: 0;
-  padding: 0;
-}
-.container {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-h1, h2 {
-  text-align: center;
-}
-form {
-  display: flex;
-  flex-direction: column;
-}
-label, p {
-  margin: 10px 0 5px;
-}
-input, select, button {
-  padding: 10px;
-  margin-bottom: 15px;
-}
-button {
-  background: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-button:hover {
-  background: #0056b3;
-}
-.disclaimer {
-  font-size: 0.9em;
-  color: #666;
-  margin-top: 20px;
+* {
+margin: 0;
+font-family: Arial, Helvetica, sans-serif;
+border: border-box;
 }
