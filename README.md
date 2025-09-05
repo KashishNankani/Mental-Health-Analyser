@@ -1,9 +1,12 @@
 # Mental-Health-Analyser
 VAK personality(or learning style) preferences
-<img width="1920" height="1020" alt="Screenshot 2025-09-04 132520" src="https://github.com/user-attachments/assets/59cde005-f3fe-43a7-99c6-63ef6bda072d" />
-<img width="1920" height="1020" alt="Screenshot 2025-09-04 132510" src="https://github.com/user-attachments/assets/580e7620-b827-4b74-8893-61272e4e5b5e" />
-<img width="1920" height="1020" alt="Screenshot 2025-09-04 132500" src="https://github.com/user-attachments/assets/47112e26-56b3-4ca7-b1bc-ca4efe908371" />
-<img width="1920" height="1020" alt="Screenshot 2025-09-04 132450" src="https://github.com/user-attachments/assets/c17504d2-2ae5-4f0d-baaa-1e647677538a" />
-<img width="1920" height="1020" alt="Screenshot 2025-09-04 132425" src="https://github.com/user-attachments/assets/cd945926-695e-43b5-88a9-bde02350fd40" />
-
-<img width="1920" height="1020" alt="Screenshot 2025-09-04 132415" src="https://github.com/user-attachments/assets/abc3afed-7dd4-4b4c-b1eb-b1468037c8ba" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-05 173524" src="https://github.com/user-attachments/assets/ef2b546d-32b5-4864-9a3f-66ba14e6b8c9" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-05 173645" src="https://github.com/user-attachments/assets/6c80e321-005d-4574-a272-73036af921c4" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-05 173810" src="https://github.com/user-attachments/assets/d62d63f4-8b7c-43a5-921b-b8a203c89491" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-05 173936" src="https://github.com/user-attachments/assets/bdca4027-f5d2-427a-8e32-f2702bb0179a" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-04 132450" src="https://github.com/user-attachments/assets/46e19313-b0cc-431b-ab3f-d56b7d9a5cff" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-05 174203" src="https://github.com/user-attachments/assets/41e87f3c-9d91-42d2-8a93-409fa4833fda" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-05 180229" src="https://github.com/user-attachments/assets/98b110e9-69db-4659-bc05-ee812014fc4c" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-05 173631" src="https://github.com/user-attachments/assets/f1209288-ae2a-4e8d-a2d4-17dc840af427" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-05 152238" src="https://github.com/user-attachments/assets/89aa0640-5c97-48ee-9a2d-dbd823f1b3ec" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-05 104431" src="https://github.com/user-attachments/assets/8c76bea9-7891-4fbd-94b4-34cdce897b4b" />
