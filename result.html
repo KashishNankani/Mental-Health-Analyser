@@ -3,66 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <title>Results</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style1.css">
   <script type="module" src="auth-guard.js"></script>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f9fafb; /* Cool cream background */
-      color: #000000; /* Black text for readability */
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9fafb; /* Cool cream background */
+  color: #000000;
+}
 
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      background: #ffffff; /* White card */
-      padding: 30px;
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+h2 {
+  background-color: #1a3c57; /* Dark Blue */
+  color: #ffffff;           /* White text */
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+
+h3 {
+  margin: 25px 0 15px;       /* space above and below */
+  color: #1a3c57;            /* same dark blue */
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;        /* centers headings above tables */
+  border-bottom: none;       /* removes any underline look */
+}
+
+
+.container table {
+  width: 100% !important;   /* force all tables to same width */
+  max-width: 750px;         /* keeps them neat and not overly wide */
+  margin: 20px auto;        /* centered */
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.container h3 {
+  margin-top: 30px;      /* was 40px, so slightly tighter */
+  margin-bottom: 12px;   /* was 15px, just a touch less */
+  color: #1a3c57;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 0;     /* remove underline space */
+}
+
+.container h3::after {
+  content: "";
+  display: none;
+  width: 60px;           /* underline width */
+  height: 3px;
+  background: #1a3c57;   /* Dark Blue underline */
+  margin: 8px auto 0;    /* centers underline */
+  border-radius: 2px;
+}
+
+
+.container th,
+.container td {
+  border: 1px solid #cccccc;
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.container th {
+  background: #1a3c57;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.container tr:nth-child(even) {
+  background: #f1f5f9;
+}
+
+.disclaimer {
+  margin-top: 30px;
+  font-size: 0.9em;
+  color: #555555;
+  text-align: center;
+}
+
+.retake-btn {
+      display: block;
+      width: 60%;
+      margin: 30px auto 0;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      background-color: #1a3c57;
+      color: #fff;
+      border: none;
       border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
+.retake-btn:hover {
+      background-color: #2a567a;
+      transform: translateY(-2px);
+    }
+</style>
 
-    h2 {
-      color: #1a3c57; /* Dark Blue heading */
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: #ffffff; /* White table background */
-    }
-
-    th, td {
-      border: 1px solid #cccccc; /* Neutral gray border */
-      padding: 10px;
-      text-align: center;
-    }
-
-    th {
-      background: #1a3c57; /* Dark Blue header */
-      color: #ffffff; /* White text for contrast */
-    }
-
-    tr:nth-child(even) {
-      background: #f1f5f9; /* very light cool cream-blue tint */
-    }
-
-    h3 {
-      margin-top: 30px;
-      color: #1a3c57; /* Dark Blue subheading */
-    }
-
-    .disclaimer {
-      margin-top: 20px;
-      font-size: 0.9em;
-      color: #555555; /* softer neutral gray text */
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -76,6 +137,6 @@
 
   <!-- ✅ Your main app logic -->
   <script type="module" src="script.js"></script>
+  
 </body>
 </html>
-
