@@ -1,4 +1,3 @@
-// auth-guard.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -15,19 +14,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const protectedPages = ["form1.html", "form2.html", "form3.html", "results.html"];
+const protectedPages = ["form1.html", "form2.html", "form3.html", "result.html"];
 const currentPage = location.pathname.split("/").pop();
-
-// hide page until auth check is complete
-document.body.style.display = "none";
 
 onAuthStateChanged(auth, (user) => {
   if (!user && protectedPages.includes(currentPage)) {
-    window.location.href = "login.html";
-  } else if (user && currentPage === "login.html") {
-    window.location.href = "form1.html";
-  } else {
-    // show page only if user is allowed
-    document.body.style.display = "block";
+    window.location.href = "index.html";
   }
 });
+
