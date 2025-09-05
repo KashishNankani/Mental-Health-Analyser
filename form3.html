@@ -220,5 +220,42 @@
 
 <!-- Your script file -->
 <script type="module" src="script.js"></script>
+<script type="module">
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+import { app } from "./script1.js";
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form3 = document.getElementById("form3");
+  if (!form3) return;
+
+  auth.onAuthStateChanged(async (user) => {
+    if (!user) return;
+
+    // Restore
+    const saved = await getDoc(doc(db, "users", user.uid, "responses", "form3-draft"));
+    if (saved.exists()) {
+      const answers = saved.data().answers || {};
+      Object.entries(answers).forEach(([name, value]) => {
+        const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
+        if (input) input.checked = true;
+      });
+    }
+
+    // Auto-save
+    form3.addEventListener("change", async () => {
+      const answers = {};
+      form3.querySelectorAll("input[type=radio]:checked").forEach((input) => {
+        answers[input.name] = input.value;
+      });
+      await setDoc(doc(db, "users", user.uid, "responses", "form3-draft"), { answers });
+    });
+  });
+});
+</script>
+
 </body>
 </html>
