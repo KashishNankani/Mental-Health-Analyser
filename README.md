@@ -1,5 +1,5 @@
 # Mental-Health-Analyser
-# Mental Health Analyser
+
 
 ## Project Overview
 This is a web-based mental health quiz application. Users can answer questions to get insights into their emotional awareness. The quiz content and logic are provided by the teacher. The project also includes database integration as per the project requirements.
