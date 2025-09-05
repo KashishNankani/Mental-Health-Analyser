@@ -3,97 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <title>Mental Health Quiz - Login</title>
-  
+
+  <!-- Font Awesome for Eye Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-   body {
-  font-family: Arial, sans-serif;
-  background-color: #f9fafb; /* Cool Cream background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-.container {
-  width: 380px;
-  background: #ffffff; /* White card */
-  padding: 40px 30px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centers inner content */
-}
+    .container {
+      width: 380px;
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-.container h2 {
-  margin-bottom: 25px;
-  color: #1a3c57; /* Dark Blue */
-  font-size: 22px;
-  font-weight: bold;
-  text-align: center;
-  width: 100%;
-}
+    .container h2 {
+      margin-bottom: 25px;
+      color: #1a3c57;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+      width: 100%;
+    }
 
-.input-box {
-  width: 100%; /* ensures inputs align with button */
-  margin-bottom: 18px;
-}
+    .input-box {
+      width: 100%;
+      margin-bottom: 18px;
+      position: relative; /* for eye icon */
+    }
 
-.input-box label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: bold;
-  font-size: 14px;
-  color: #000000; /* Black text */
-}
+    .input-box label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #000000;
+    }
 
-.input-box input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #cccccc; /* Neutral gray border */
-  font-size: 14px;
-  transition: border 0.3s, box-shadow 0.3s;
-  box-sizing: border-box; /* prevents overflow */
-}
+    .input-box input {
+      width: 100%;
+      padding: 12px 40px 12px 12px; /* space for eye */
+      border-radius: 8px;
+      border: 1px solid #cccccc;
+      font-size: 14px;
+      transition: border 0.3s, box-shadow 0.3s;
+      box-sizing: border-box;
+    }
 
-.input-box input:focus {
-  border-color: #1a3c57;
-  box-shadow: 0 0 6px rgba(26, 60, 87, 0.3);
-  outline: none;
-}
+    .input-box input:focus {
+      border-color: #1a3c57;
+      box-shadow: 0 0 6px rgba(26, 60, 87, 0.3);
+      outline: none;
+    }
 
-button {
-  width: 100%;
-  margin-top: 10px;
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #1a3c57;
-  color: #ffffff;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-}
+    /* Eye Icon */
+    .toggle-password {
+      position: absolute;
+      top: 36px;
+      right: 12px;
+      cursor: pointer;
+      color: #666;
+    }
 
-button:hover {
-  background-color: #163248;
-  transform: translateY(-2px);
-}
-#loginForm {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* keeps inputs centered */
-}
-#loginForm .input-box {
-  width: 100%;
-  margin-bottom: 18px;
-}
+    button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #1a3c57;
+      color: #ffffff;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
 
+    button:hover {
+      background-color: #163248;
+      transform: translateY(-2px);
+    }
 
+    #loginForm,
+     #signupForm {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #loginForm .input-box,
+     #signupForm .input-box {
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -110,6 +123,8 @@ button:hover {
       <div class="input-box">
         <label for="password">Enter Password:</label>
         <input type="password" id="password" required>
+        <!-- Default icon is eye (hidden password) -->
+        <i class="fa-solid fa-eye toggle-password" data-target="password"></i>
       </div>
 
       <button type="submit">Login & Start Quiz</button>
@@ -119,7 +134,7 @@ button:hover {
       Don’t have an account? <a href="#" id="toggleSignup">Sign up here</a>
     </p>
 
-    <!-- SIGNUP FORM (hidden by default) -->
+    <!-- SIGNUP FORM -->
     <form id="signupForm" style="display:none; margin-top:20px;">
       <div class="input-box">
         <label for="signupEmail">Enter Your Email:</label>
@@ -129,6 +144,13 @@ button:hover {
       <div class="input-box">
         <label for="signupPassword">Enter Password:</label>
         <input type="password" id="signupPassword" required>
+        <i class="fa-solid fa-eye toggle-password" data-target="signupPassword"></i>
+      </div>
+
+      <div class="input-box">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required>
+        <i class="fa-solid fa-eye toggle-password" data-target="confirmPassword"></i>
       </div>
 
       <button type="submit">Sign Up</button>
@@ -139,8 +161,7 @@ button:hover {
     </p>
   </div>
 
-  <!-- Your script file -->
+  <!-- Load main script -->
   <script type="module" src="script.js"></script>
 </body>
-
 </html>
