@@ -1,5 +1,66 @@
 # Mental-Health-Analyser
-VAK personality(or learning style) preferences
+# Mental Health Analyser
+
+## Project Overview
+This is a web-based mental health quiz application. Users can answer questions to get insights into their emotional awareness. The quiz content and logic are provided by the teacher. The project also includes database integration as per the project requirements.
+
+---
+
+## Features
+- Responsive and clean user interface
+- Show/hide password functionality for login
+- Visual feedback for quiz answers
+- Mobile-friendly layout
+- Multi-page quiz with Form1, Form2, and Form3
+- Result page for displaying quiz outcomes
+
+---
+
+## Tech Stack
+- **HTML5, CSS3, JavaScript** (Front-end)
+- **Firebase** (Authentication & Firestore database)
+- **Netlify** 
+
+---
+
+## Project Structure
+- `index.html` → Login page  
+- `form1.html` → Quiz page 1  
+- `form2.html` → Quiz page 2  
+- `form3.html` → Quiz page 3  
+- `result.html` → Result page  
+- `auth-guard.js` → Authentication handling  
+- `script.js` → Frontend logic (UI interactions, quiz functionality)  
+- `style.css` → Styling for all pages  
+- `images/` → All images used in the quiz  
+- `README.md` → This file  
+
+---
+
+## How to Run
+1. Clone or download the repository:
+   ```bash
+   git clone https://github.com/KashishNankani/Mental-Health-Analyser
+2. Open index.html in a web browser.
+
+3. The project is ready to use; no additional backend setup is required beyond the existing Firebase configuration.
+
+4. Netlify link:
+
+## Notes
+- The quiz logic is provided by the teacher and has not been modified.
+- Database integration is implemented via Firebase as requested.
+- Works on modern browsers (Chrome, Firefox, Edge).
+
+---
+
+## Contributors
+- Kashish Nankani
+- Jagrati Tripathi
+
+---
+
+## Screenshot
 <img width="1920" height="1020" alt="Screenshot 2025-09-05 191455" src="https://github.com/user-attachments/assets/d913eaba-145b-46bf-998c-cff5ec89057f" />
 <img width="1920" height="1020" alt="Screenshot 2025-09-05 191743" src="https://github.com/user-attachments/assets/4ed55801-8728-4b91-b791-15b3b9e66424" />
 <img width="1920" height="1020" alt="Screenshot 2025-09-05 173645" src="https://github.com/user-attachments/assets/6c80e321-005d-4574-a272-73036af921c4" />
