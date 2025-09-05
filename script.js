@@ -11,12 +11,10 @@ import {
   doc,
   setDoc,
   getDoc,
+  deleteDoc,
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-import { deleteDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-/* ========= Firebase Config (your values) ========= */
+/* ========= Firebase Config ========= */
 const firebaseConfig = {
   apiKey: "AIzaSyA2QiSdtnt3H7SbCDoF1mCp7JPFxxOopdw",
   authDomain: "mental-health-analyser-15c43.firebaseapp.com",
@@ -32,14 +30,16 @@ export const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+/* ========= Global Form References ========= */
+const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
+
 /* ========= Page Logic ========= */
 document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("loginForm");
-  const signupForm = document.getElementById("signupForm");            // ok if missing
-  const toggleSignup = document.getElementById("toggleSignup");        // ok if missing
-  const backToLogin = document.getElementById("backToLogin");          // ok if missing
+  const toggleSignup = document.getElementById("toggleSignup");
+  const backToLogin = document.getElementById("backToLogin");
 
-  /* ----- Toggle Login ↔ Signup (only if those nodes exist on the page) ----- */
+  /* ----- Toggle Login ↔ Signup ----- */
   if (toggleSignup && signupForm && loginForm && backToLogin) {
     toggleSignup.addEventListener("click", (e) => {
       e.preventDefault();
@@ -58,6 +58,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ----- Password Eye Toggle ----- */
+  document.querySelectorAll(".toggle-password").forEach((icon) => {
+    icon.addEventListener("click", () => {
+      const targetId = icon.getAttribute("data-target");
+      const input = document.getElementById(targetId);
+      if (!input) return;
+
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+      } else {
+        input.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      }
+    });
+  });
+});
+
 /* ------------------ LOGIN ------------------ */
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
@@ -70,23 +90,23 @@ if (loginForm) {
       return;
     }
 
-   try {
-  const userCred = await signInWithEmailAndPassword(auth, email, password);
-  const user = userCred.user;
+    try {
+      const userCred = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCred.user;
 
-  // ✅ Check if user has completed all 3 forms
-  const f1 = await getDoc(doc(db, "users", user.uid, "responses", "form1"));
-  const f2 = await getDoc(doc(db, "users", user.uid, "responses", "form2"));
-  const f3 = await getDoc(doc(db, "users", user.uid, "responses", "form3"));
+      // ✅ Check if user has completed all 3 forms
+      const f1 = await getDoc(doc(db, "users", user.uid, "responses", "form1"));
+      const f2 = await getDoc(doc(db, "users", user.uid, "responses", "form2"));
+      const f3 = await getDoc(doc(db, "users", user.uid, "responses", "form3"));
 
-  if (f1.exists() && f2.exists() && f3.exists()) {
-    alert("✅ Welcome back! Redirecting to your results...");
-    window.location.href = "result.html";
-  } else {
-    alert("✅ Login successful! Redirecting to Form 1...");
-    window.location.href = "form1.html";
-  }
-} catch (err) {
+      if (f1.exists() && f2.exists() && f3.exists()) {
+        alert("✅ Welcome back! Redirecting to your results...");
+        window.location.href = "result.html";
+      } else {
+        alert("✅ Login successful! Redirecting to Form 1...");
+        window.location.href = "form1.html";
+      }
+    } catch (err) {
       console.error("Firebase login error:", err);
       if (err.code === "auth/invalid-email") {
         alert("⚠ Please enter a valid email address.");
@@ -108,7 +128,6 @@ if (signupForm) {
     const email = document.getElementById("signupEmail").value.trim();
     const password = document.getElementById("signupPassword").value.trim();
 
-    // Basic validation before hitting Firebase
     if (!email || !password) {
       alert("⚠ Please enter both email and password.");
       return;
@@ -147,6 +166,7 @@ if (signupForm) {
     }
   });
 }
+
 
   /* ------------------ Route Protection (no logout needed) ------------------ */
   const protectedPages = ["form1.html", "form2.html", "form3.html", "result.html"];
@@ -495,4 +515,4 @@ if (resultsDiv) {
 }
   });
 }
-});
+
