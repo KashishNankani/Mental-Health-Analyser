@@ -1,4 +1,4 @@
-<img width="1920" height="1020" alt="Screenshot 2025-09-05 191455" src="https://github.com/user-attachments/assets/37e63e6b-c213-47b3-bb60-311454b615c2" /># Mental-Health-Analyser
+# Mental-Health-Analyser
 VAK personality(or learning style) preferences
 <img width="1920" height="1020" alt="Screenshot 2025-09-05 191455" src="https://github.com/user-attachments/assets/d913eaba-145b-46bf-998c-cff5ec89057f" />
 <img width="1920" height="1020" alt="Screenshot 2025-09-05 191743" src="https://github.com/user-attachments/assets/4ed55801-8728-4b91-b791-15b3b9e66424" />
