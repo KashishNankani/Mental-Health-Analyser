@@ -85,3 +85,7 @@ This is a **web-based mental health quiz application** designed to help users ga
 <img width="1920" height="1020" alt="Screenshot 2025-09-05 173631" src="https://github.com/user-attachments/assets/f1209288-ae2a-4e8d-a2d4-17dc840af427" />
 <img width="1920" height="1020" alt="Screenshot 2025-09-05 152238" src="https://github.com/user-attachments/assets/89aa0640-5c97-48ee-9a2d-dbd823f1b3ec" />
 <img width="1920" height="1020" alt="Screenshot 2025-09-05 104431" src="https://github.com/user-attachments/assets/8c76bea9-7891-4fbd-94b4-34cdce897b4b" />
+
+
+<img width="1920" height="1020" alt="Screenshot 2025-09-06 173610" src="https://github.com/user-attachments/assets/422430d6-e1a1-43bc-a7e7-570003b544f5" />
+<img width="1920" height="1020" alt="Screenshot 2025-09-06 173421" src="https://github.com/user-attachments/assets/42f31580-8da3-4023-a808-854df07f4ba1" />
