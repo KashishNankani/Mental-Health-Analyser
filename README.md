@@ -2,7 +2,30 @@
 
 
 ## Project Overview
-This is a web-based mental health quiz application. Users can answer questions to get insights into their emotional awareness. The quiz content and logic are provided by the teacher. The project also includes database integration as per the project requirements.
+This is a **web-based mental health quiz application** designed to help users gain insights into their emotional awareness and learning preferences.
+
+## Features
+
+- 🧑‍💻 **User Accounts & Authentication**  
+  Users can securely **sign up and log in** using Firebase Authentication. Each user’s data is stored separately to ensure privacy.
+
+- 📑 **Quiz Flow**  
+  The application includes **three forms (quizzes)**, each focusing on different aspects of mental health and learning styles. Users must complete the forms in order, and their results are automatically analyzed.
+
+- 📊 **Results & Insights**  
+  After completing all quizzes, users are redirected to a **results page** that shows a detailed breakdown of their scores across categories (e.g., self-awareness, empathy, learning style preferences).
+
+- 🔁 **Retake Option**  
+  Users can **retake the quiz** if they wish, which resets their previous responses.
+
+- 💾 **Database Integration**  
+  Responses and results are stored securely in **Firebase Firestore**, following best practices and security rules to protect user data.
+
+- 🔒 **Security Features**  
+  The app uses Firestore rules to ensure users can only access their own data, along with authentication checks that prevent bypassing quiz steps or viewing results without completing the quizzes.
+
+- 🎨 **User-Friendly Interface**  
+  The UI includes features like a **show/hide password toggle, colorful toast notifications instead of default browser alerts**, and smooth navigation between forms.
 
 ---
 
