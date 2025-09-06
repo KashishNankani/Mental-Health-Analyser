@@ -29,16 +29,6 @@ This is a **web-based mental health quiz application** designed to help users ga
 
 ---
 
-## Features
-- Responsive and clean user interface
-- Show/hide password functionality for login
-- Visual feedback for quiz answers
-- Mobile-friendly layout
-- Multi-page quiz with Form1, Form2, and Form3
-- Result page for displaying quiz outcomes
-
----
-
 ## Tech Stack
 - **HTML5, CSS3, JavaScript** (Front-end)
 - **Firebase** (Authentication & Firestore database)
