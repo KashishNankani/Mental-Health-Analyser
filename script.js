@@ -1,4 +1,4 @@
-// script1.js
+// script.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import {
   getAuth,
@@ -30,6 +30,109 @@ export const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+/* ========= Loader ========= */
+const loader = document.createElement("div");
+loader.id = "page-loader";
+loader.style.position = "fixed";
+loader.style.top = "0";
+loader.style.left = "0";
+loader.style.width = "100%";
+loader.style.height = "100%";
+loader.style.background = "#f9fafb";
+loader.style.display = "flex";
+loader.style.alignItems = "center";
+loader.style.justifyContent = "center";
+loader.style.font = "600 18px system-ui";
+loader.style.zIndex = "9999";
+loader.innerText = "Checking login…";
+document.body.appendChild(loader);
+
+/* ========= Toast helper ========= */
+function showToast(msg, type = "info", duration = 3000) {
+  const colors = {
+    info: "#2563eb",
+    success: "#16a34a",
+    warning: "#eab308",
+    error: "#dc2626",
+  };
+  const wrapId = "toast-wrap";
+  let wrap = document.getElementById(wrapId);
+  if (!wrap) {
+    wrap = document.createElement("div");
+    wrap.id = wrapId;
+    wrap.style.position = "fixed";
+    wrap.style.top = "20px";
+    wrap.style.left = "50%";
+    wrap.style.transform = "translateX(-50%)";
+    wrap.style.zIndex = "10000";
+    wrap.style.display = "flex";
+    wrap.style.flexDirection = "column";
+    wrap.style.gap = "12px";
+    document.body.appendChild(wrap);
+  }
+  const div = document.createElement("div");
+  div.textContent = msg;
+  div.style.padding = "12px 20px";
+  div.style.borderRadius = "8px";
+  div.style.color = "#fff";
+  div.style.background = colors[type] || colors.info;
+  div.style.boxShadow = "0 6px 12px rgba(0,0,0,0.15)";
+  div.style.font = "500 15px system-ui, sans-serif";
+  div.style.opacity = "0";
+  div.style.transform = "translateY(-10px)";
+  div.style.transition = "opacity .3s ease, transform .3s ease";
+  wrap.appendChild(div);
+  requestAnimationFrame(() => {
+    div.style.opacity = "1";
+    div.style.transform = "translateY(0)";
+  });
+  setTimeout(() => {
+    div.style.opacity = "0";
+    div.style.transform = "translateY(-10px)";
+    setTimeout(() => div.remove(), 300);
+  }, duration);
+}
+
+/* ========= Custom confirm ========= */
+function showConfirm(msg) {
+  return new Promise((resolve) => {
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.background = "rgba(0,0,0,0.5)";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.zIndex = "10000";
+
+    const box = document.createElement("div");
+    box.style.background = "#fff";
+    box.style.padding = "20px";
+    box.style.borderRadius = "10px";
+    box.style.width = "320px";
+    box.style.textAlign = "center";
+    box.innerHTML = `
+      <p style="margin-bottom:20px;font-size:15px;color:#333;">${msg}</p>
+      <button id="confirmYes" style="padding:10px 20px;margin:5px;background:#16a34a;color:white;border:none;border-radius:6px;cursor:pointer;">Yes</button>
+      <button id="confirmNo" style="padding:10px 20px;margin:5px;background:#dc2626;color:white;border:none;border-radius:6px;cursor:pointer;">No</button>
+    `;
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+
+    box.querySelector("#confirmYes").onclick = () => {
+      overlay.remove();
+      resolve(true);
+    };
+    box.querySelector("#confirmNo").onclick = () => {
+      overlay.remove();
+      resolve(false);
+    };
+  });
+}
+
 /* ========= Global Form References ========= */
 const loginForm = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
@@ -39,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleSignup = document.getElementById("toggleSignup");
   const backToLogin = document.getElementById("backToLogin");
 
-  /* ----- Toggle Login ↔ Signup ----- */
   if (toggleSignup && signupForm && loginForm && backToLogin) {
     toggleSignup.addEventListener("click", (e) => {
       e.preventDefault();
@@ -58,7 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ----- Password Eye Toggle ----- */
   document.querySelectorAll(".toggle-password").forEach((icon) => {
     icon.addEventListener("click", () => {
       const targetId = icon.getAttribute("data-target");
@@ -86,7 +187,7 @@ if (loginForm) {
     const password = document.getElementById("password").value.trim();
 
     if (!email || !password) {
-      alert("⚠ Please fill in both email and password.");
+      showToast("⚠ Please fill in both email and password.", "warning");
       return;
     }
 
@@ -94,28 +195,27 @@ if (loginForm) {
       const userCred = await signInWithEmailAndPassword(auth, email, password);
       const user = userCred.user;
 
-      // ✅ Check if user has completed all 3 forms
       const f1 = await getDoc(doc(db, "users", user.uid, "responses", "form1"));
       const f2 = await getDoc(doc(db, "users", user.uid, "responses", "form2"));
       const f3 = await getDoc(doc(db, "users", user.uid, "responses", "form3"));
 
       if (f1.exists() && f2.exists() && f3.exists()) {
-        alert("✅ Welcome back! Redirecting to your results...");
-        window.location.href = "result.html";
+        showToast("✅ Welcome back! Opening your results…", "success", 2000);
+        setTimeout(() => (window.location.href = "result.html"), 1200);
       } else {
-        alert("✅ Login successful! Redirecting to Form 1...");
-        window.location.href = "form1.html";
+        showToast("✅ Login successful! Redirecting to Form 1…", "success", 2000);
+        setTimeout(() => (window.location.href = "form1.html"), 1200);
       }
     } catch (err) {
-      console.error("Firebase login error:", err);
-      if (err.code === "auth/invalid-email") {
-        alert("⚠ Please enter a valid email address.");
-      } else if (err.code === "auth/user-not-found") {
-        alert("⚠ No account found with this email. Please sign up first.");
-      } else if (err.code === "auth/wrong-password") {
-        alert("⚠ Incorrect password. Please try again.");
+      const code = err?.code || "";
+      if (code === "auth/invalid-email") {
+        showToast("⚠ Please enter a valid email address.", "warning");
+      } else if (code === "auth/user-not-found") {
+        showToast("⚠ No account found with this email. Please sign up first.", "warning", 3500);
+      } else if (code === "auth/wrong-password") {
+        showToast("⚠ Incorrect password. Please try again.", "warning");
       } else {
-        alert("❌ Login failed. Please try again.");
+        showToast("❌ Login failed. Please try again.", "error");
       }
     }
   });
@@ -129,15 +229,15 @@ if (signupForm) {
     const password = document.getElementById("signupPassword").value.trim();
 
     if (!email || !password) {
-      alert("⚠ Please enter both email and password.");
+      showToast("⚠ Please enter both email and password.", "warning");
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      alert("⚠ Please enter a valid email address.");
+      showToast("⚠ Please enter a valid email address.", "warning");
       return;
     }
     if (password.length < 6) {
-      alert("⚠ Password must be at least 6 characters long.");
+      showToast("⚠ Password must be at least 6 characters long.", "warning", 3500);
       return;
     }
 
@@ -150,206 +250,231 @@ if (signupForm) {
         createdAt: new Date(),
       });
 
-      alert("🎉 Signup successful! Redirecting...");
-      window.location.href = "form1.html";
+      showToast("🎉 Signup successful! Redirecting…", "success", 2000);
+      setTimeout(() => (window.location.href = "form1.html"), 1200);
     } catch (err) {
-      console.error("Firebase signup error:", err);
-      if (err.code === "auth/email-already-in-use") {
-        alert("⚠ This email is already registered. Please log in instead.");
-      } else if (err.code === "auth/invalid-email") {
-        alert("⚠ Please enter a valid email address.");
-      } else if (err.code === "auth/weak-password") {
-        alert("⚠ Password is too weak. Use at least 6 characters.");
+      const code = err?.code || "";
+      if (code === "auth/email-already-in-use") {
+        showToast("⚠ This email is already registered. Please log in instead.", "warning", 3500);
+      } else if (code === "auth/invalid-email") {
+        showToast("⚠ Please enter a valid email address.", "warning");
+      } else if (code === "auth/weak-password") {
+        showToast("⚠ Password is too weak. Use at least 6 characters.", "warning", 3500);
       } else {
-        alert("❌ Signup failed. Please try again.");
+        showToast("❌ Signup failed. Please try again.", "error");
       }
     }
   });
 }
 
+/* ------------------ Route Protection ------------------ */
+const protectedPages = ["form1.html", "form2.html", "form3.html", "result.html"];
+const currentPage = location.pathname.split("/").pop();
 
-  /* ------------------ Route Protection (no logout needed) ------------------ */
-  const protectedPages = ["form1.html", "form2.html", "form3.html", "result.html"];
-  onAuthStateChanged(auth, (user) => {
-    const currentPage = location.pathname.split("/").pop();
+onAuthStateChanged(auth, async (user) => {
+  const loader = document.getElementById("page-loader");
+  if (loader) loader.remove();
 
-    // Kick users out of protected pages if not logged in
-    if (!user && protectedPages.includes(currentPage)) {
-      alert("⚠️ You must be logged in to access this page.");
-      window.location.href = "index.html"; // 
-      return;
-    }
-
-   
-  });
-
-  /* ------------------ FORM 1 (radios q1..q50) ------------------ */
-const form1 = document.getElementById("form1");
-if (form1) {
-  form1.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    // Validate: every question q1..q50 must have an answer
-    const answers = [];
-    for (let i = 1; i <= 50; i++) {
-  const selected = document.querySelector(`input[name="q${i}"]:checked`);
-  if (!selected) {
-    alert(`Please answer question ${i} before submitting.`);
-
-    // 👇 new part: scroll to the first unanswered question after alert
-    setTimeout(() => {
-      const firstUnanswered = document.querySelector(`input[name="q${i}"]`);
-      if (firstUnanswered) {
-        firstUnanswered.scrollIntoView({ behavior: "smooth", block: "center" });
-        firstUnanswered.focus();
-      }
-    }, 100);
-
+  if (!user && protectedPages.includes(currentPage)) {
+    showToast("⚠ Please login first to access this page.", "warning", 3000);
+    setTimeout(() => (window.location.href = "index.html"), 1200);
     return;
   }
-  answers.push(parseInt(selected.value, 10));
-}
 
+  if (user) {
+    const f1 = await getDoc(doc(db, "users", user.uid, "responses", "form1"));
+    const f2 = await getDoc(doc(db, "users", user.uid, "responses", "form2"));
+    const f3 = await getDoc(doc(db, "users", user.uid, "responses", "form3"));
 
-    // 5 categories, 10 questions each
-    const categories = [
-      "Self Awareness",
-      "Managing Emotions",
-      "Motivating Oneself",
-      "Empathy",
-      "Social Skills",
-    ];
-    const catSums = [0, 0, 0, 0, 0];
-
-    for (let i = 0; i < answers.length; i++) {
-      const catIndex = Math.floor(i / 10);
-      catSums[catIndex] += answers[i];
+    if (currentPage === "form2.html" && !f1.exists()) {
+      showToast("⚠ Please complete Form 1 first.", "warning");
+      setTimeout(() => (window.location.href = "form1.html"), 1000);
     }
+    if (currentPage === "form3.html" && (!f1.exists() || !f2.exists())) {
+      showToast("⚠ Please complete Form 1 and Form 2 first.", "warning");
+      setTimeout(() => (window.location.href = !f1.exists() ? "form1.html" : "form2.html"), 1000);
+    }
+    if (currentPage === "result.html" && (!f1.exists() || !f2.exists() || !f3.exists())) {
+      showToast("⚠ Please complete all forms first.", "warning");
+      setTimeout(() => {
+        if (!f1.exists()) window.location.href = "form1.html";
+        else if (!f2.exists()) window.location.href = "form2.html";
+        else window.location.href = "form3.html";
+      }, 1000);
+    }
+  }
+});
 
+/* ------------------ FORM 1 ------------------ */
+const form1 = document.getElementById("form1");
+if (form1) {
+  // Restore saved draft
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const docRef = doc(db, "users", user.uid, "responses", "form1");
+      const snap = await getDoc(docRef);
+      if (snap.exists() && snap.data().rawAnswers) {
+        const saved = snap.data().rawAnswers;
+        Object.entries(saved).forEach(([q, val]) => {
+          const input = form1.querySelector(`input[name="${q}"][value="${val}"]`);
+          if (input) input.checked = true;
+        });
+      }
+    }
+  });
+
+  // Auto-save while filling
+  form1.addEventListener("input", async () => {
+    const rawAnswers = {};
+    form1.querySelectorAll("input[type=radio]:checked").forEach((el) => {
+      rawAnswers[el.name] = el.value;
+    });
+    const user = auth.currentUser;
+    if (user) {
+      await setDoc(doc(db, "users", user.uid, "responses", "form1"), { rawAnswers }, { merge: true });
+    }
+  });
+
+  // Final submit
+  form1.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const answers = [];
+    for (let i = 1; i <= 50; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (!selected) {
+        showToast(`Please answer question ${i} before submitting.`, "warning", 1600);
+        selected?.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+      answers.push(parseInt(selected.value, 10));
+    }
+    const categories = ["Self Awareness","Managing Emotions","Motivating Oneself","Empathy","Social Skills"];
+    const catSums = [0,0,0,0,0];
+    for (let i = 0; i < answers.length; i++) {
+      catSums[Math.floor(i/10)] += answers[i];
+    }
     function getTier(score) {
       if (score >= 10 && score <= 17) return "Development Priority";
       if (score >= 18 && score <= 34) return "Need Attention";
       if (score >= 35 && score <= 50) return "Strength";
       return "";
     }
-
-    const form1Result = categories.map((cat, idx) => ({
-      category: cat,
-      score: catSums[idx],
-      tier: getTier(catSums[idx]),
-    }));
-
+    const results = categories.map((cat, idx) => ({ category: cat, score: catSums[idx], tier: getTier(catSums[idx]) }));
     const user = auth.currentUser;
     if (user) {
-      await setDoc(doc(db, "users", user.uid, "responses", "form1"), {
-        results: form1Result,
-      });
+      await setDoc(doc(db, "users", user.uid, "responses", "form1"), { results }, { merge: true });
     }
-
     window.location.href = "form2.html";
   });
 }
 
-  /* ------------------ FORM 2 ------------------ */
-  const form2 = document.getElementById("form2");
-  if (form2) {
-    form2.addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const answers = [];
-      document
-        .querySelectorAll("#form2 input:checked")
-        .forEach((radio) => answers.push(radio.value));
-
-      const countObj = { K: 0, A: 0, V: 0 };
-      answers.forEach((val) => {
-        if (countObj[val] !== undefined) countObj[val]++;
-      });
-
-      const user = auth.currentUser;
-      if (user) {
-        await setDoc(doc(db, "users", user.uid, "responses", "form2"), {
-          results: countObj,
+/* ------------------ FORM 2 ------------------ */
+const form2 = document.getElementById("form2");
+if (form2) {
+  // Restore draft
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const snap = await getDoc(doc(db, "users", user.uid, "responses", "form2"));
+      if (snap.exists() && snap.data().rawAnswers) {
+        const saved = snap.data().rawAnswers;
+        Object.entries(saved).forEach(([q, val]) => {
+          const input = form2.querySelector(`input[name="${q}"][value="${val}"]`);
+          if (input) input.checked = true;
         });
       }
+    }
+  });
 
-      window.location.href = "form3.html";
+  // Auto-save
+  form2.addEventListener("input", async () => {
+    const rawAnswers = {};
+    form2.querySelectorAll("input[type=radio]:checked").forEach((el) => {
+      rawAnswers[el.name] = el.value;
     });
-  }
-
-  /* ------------------ FORM 3 ------------------ */
-  
-  const form3 = document.getElementById("form3");
-if (form3) {
-  // ✅ Prefill saved answers on load
-  auth.onAuthStateChanged(async (user) => {
+    const user = auth.currentUser;
     if (user) {
-      const docRef = doc(db, "users", user.uid, "responses", "form3");
-      const docSnap = await getDoc(docRef);
+      await setDoc(doc(db, "users", user.uid, "responses", "form2"), { rawAnswers }, { merge: true });
+    }
+  });
 
-      if (docSnap.exists()) {
-        const savedData = docSnap.data().rawAnswers; // <- we’ll save this below
-
-        if (savedData) {
-          Object.entries(savedData).forEach(([key, value]) => {
-            const input = form3.querySelector(`[name="${key}"]`);
-            if (input) input.value = value;
-          });
-        }
+  // Final submit
+  form2.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const answers = [];
+    document.querySelectorAll("#form2 input:checked").forEach((radio) => answers.push(radio.value));
+    if (answers.length === 0) {
+      showToast("⚠ Please select at least one option before submitting.", "warning", 3000);
+      return;
+    }
+    const countObj = { K: 0, A: 0, V: 0 };
+    answers.forEach((val) => { if (countObj[val] !== undefined) countObj[val]++; });
+    const user = auth.currentUser;
+    if (user) {
+      await setDoc(doc(db, "users", user.uid, "responses", "form2"), { results: countObj }, { merge: true });
+    }
+    window.location.href = "form3.html";
+  });
+}
+/* ------------------ FORM 3 ------------------ */
+const form3 = document.getElementById("form3");
+if (form3) {
+  // Restore draft
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const snap = await getDoc(doc(db, "users", user.uid, "responses", "form3"));
+      if (snap.exists() && snap.data().rawAnswers) {
+        const saved = snap.data().rawAnswers;
+        Object.entries(saved).forEach(([q, val]) => {
+          const input = form3.querySelector(`[name="${q}"]`);
+          if (input) input.value = val;
+        });
       }
     }
   });
 
-  // ✅ Handle submit
-  form3.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    let totalK = 0,
-      totalA = 0,
-      totalV = 0,
-      totalAd = 0;
-
-    const formData = new FormData(form3);
-    const rawAnswers = {}; // store user’s exact answers
-
-    for (const [key, value] of formData.entries()) {
-      const score = parseInt(value, 10);
-      rawAnswers[key] = value; // save it for prefill
-
-      if (key.includes("_Ad")) totalAd += score;
-      else if (key.includes("_A")) totalA += score;
-      else if (key.includes("_V")) totalV += score;
-      else if (key.includes("_K")) totalK += score;
-    }
-
-    const form3Results = { K: totalK, A: totalA, V: totalV, Ad: totalAd };
-
+  // Auto-save
+  form3.addEventListener("input", async () => {
+    const rawAnswers = {};
+    new FormData(form3).forEach((val, key) => { rawAnswers[key] = val; });
     const user = auth.currentUser;
     if (user) {
-      await setDoc(doc(db, "users", user.uid, "responses", "form3"), {
-        results: form3Results,
-        rawAnswers: rawAnswers, // ✅ added
-      });
+      await setDoc(doc(db, "users", user.uid, "responses", "form3"), { rawAnswers }, { merge: true });
     }
+  });
 
-    window.location.href = "result.html";
+  // Final submit
+  form3.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    let totalK=0,totalA=0,totalV=0,totalAd=0;
+    const rawAnswers = {};
+    new FormData(form3).forEach((val,key) => {
+      rawAnswers[key]=val;
+      const score=parseInt(val,10);
+      if (key.includes("_Ad")) totalAd+=score;
+      else if (key.includes("_A")) totalA+=score;
+      else if (key.includes("_V")) totalV+=score;
+      else if (key.includes("_K")) totalK+=score;
+    });
+    const results={K:totalK,A:totalA,V:totalV,Ad:totalAd};
+    const user=auth.currentUser;
+    if(user){
+      await setDoc(doc(db,"users",user.uid,"responses","form3"),{results,rawAnswers},{merge:true});
+    }
+    window.location.href="result.html";
   });
 }
-
-
-  /* ------------------ RESULTS PAGE ------------------ */
 /* ------------------ RESULTS PAGE ------------------ */
 const resultsDiv = document.getElementById("results");
 if (resultsDiv) {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      window.location.href = "index.html";
+      showToast("⚠ You must be logged in to view results.", "warning", 3000);
+      setTimeout(() => (window.location.href = "index.html"), 1200);
       return;
     }
 
     let html = "";
     try {
-      // Form 1
       const f1 = await getDoc(doc(db, "users", user.uid, "responses", "form1"));
       if (f1.exists() && f1.data().results) {
         const form1Results = f1.data().results;
@@ -359,33 +484,28 @@ if (resultsDiv) {
               <tr><th>Category</th><th>Score</th><th>Development Priority</th><th>Need Attention</th><th>Strength</th></tr>
             </thead>
             <tbody>
-              ${form1Results
-                .map((r) => {
-                  const dev = r.tier === "Development Priority" ? "✓" : "";
-                  const need = r.tier === "Need Attention" ? "✓" : "";
-                  const str = r.tier === "Strength" ? "✓" : "";
-                  return `<tr>
-                    <td>${r.category}</td>
-                    <td style="text-align:center">${r.score}</td>
-                    <td style="text-align:center">${dev}</td>
-                    <td style="text-align:center">${need}</td>
-                    <td style="text-align:center">${str}</td>
-                  </tr>`;
-                })
-                .join("")}
+              ${form1Results.map((r) => {
+                const dev = r.tier === "Development Priority" ? "✓" : "";
+                const need = r.tier === "Need Attention" ? "✓" : "";
+                const str = r.tier === "Strength" ? "✓" : "";
+                return `<tr>
+                  <td>${r.category}</td>
+                  <td style="text-align:center">${r.score}</td>
+                  <td style="text-align:center">${dev}</td>
+                  <td style="text-align:center">${need}</td>
+                  <td style="text-align:center">${str}</td>
+                </tr>`;
+              }).join("")}
             </tbody>
           </table><br>`;
       }
 
-      // Form 2
       const f2 = await getDoc(doc(db, "users", user.uid, "responses", "form2"));
       if (f2.exists() && f2.data().results) {
         const form2Results = f2.data().results;
         html += `<h3>Form 2 - Learning Style Count</h3>
           <table border="1" cellpadding="8" style="border-collapse: collapse; width:50%;">
-            <thead>
-              <tr><th>Style</th><th>Count</th></tr>
-            </thead>
+            <thead><tr><th>Style</th><th>Count</th></tr></thead>
             <tbody>
               <tr><td>K</td><td>${form2Results.K}</td></tr>
               <tr><td>A</td><td>${form2Results.A}</td></tr>
@@ -394,15 +514,12 @@ if (resultsDiv) {
           </table><br>`;
       }
 
-      // Form 3
       const f3 = await getDoc(doc(db, "users", user.uid, "responses", "form3"));
       if (f3.exists() && f3.data().results) {
         const form3Results = f3.data().results;
         html += `<h3>Form 3 - Detailed Learning Preference</h3>
           <table border="1" cellpadding="8" style="border-collapse: collapse; width:50%;">
-            <thead>
-              <tr><th>Type</th><th>Total Score</th></tr>
-            </thead>
+            <thead><tr><th>Type</th><th>Total Score</th></tr></thead>
             <tbody>
               <tr><td>K (Feelings)</td><td>${form3Results.K}</td></tr>
               <tr><td>A (Sounds)</td><td>${form3Results.A}</td></tr>
@@ -412,47 +529,19 @@ if (resultsDiv) {
           </table>`;
       }
     } catch (err) {
-      console.error("❌ Error loading results:", err);
-      html += `<p style="color:red;">Error loading results: ${err.message}</p>`;
+       html += `<p style="color:red;">Error loading results: ${err.message}</p>`;
     }
+
 
     resultsDiv.innerHTML = html || "<p>No results found yet. Please complete the forms.</p>";
 
-    // ✅ Only show buttons if results exist
     if (html) {
       resultsDiv.innerHTML += `
         <div style="text-align:center; margin-top: 30px; display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
-          <button id="retakeTestBtn" style="
-            padding:14px 28px;
-            background:#1a3c57;
-            color:white;
-            border:none;
-            border-radius:10px;
-            cursor:pointer;
-            font-size:16px;
-            font-weight:bold;
-            box-shadow:0 3px 6px rgba(0,0,0,0.15);
-            transition:background 0.3s, transform 0.2s;
-            min-width:160px;
-          ">🔄 Retake Test</button>
+          <button id="retakeTestBtn" style="padding:14px 28px;background:#1a3c57;color:white;border:none;border-radius:10px;cursor:pointer;font-size:16px;font-weight:bold;box-shadow:0 3px 6px rgba(0,0,0,0.15);transition:background 0.3s, transform 0.2s;min-width:160px;">🔄 Retake Test</button>
+          <button id="downloadBtn" style="padding:14px 28px;background:#1a3c57;color:white;border:none;border-radius:10px;cursor:pointer;font-size:16px;font-weight:bold;box-shadow:0 3px 6px rgba(0,0,0,0.15);transition:background 0.3s, transform 0.2s;min-width:160px;">⬇ Download Results</button>
+        </div>`;
 
-          <button id="downloadBtn" style="
-            padding:14px 28px;
-            background:#1a3c57;
-            color:white;
-            border:none;
-            border-radius:10px;
-            cursor:pointer;
-            font-size:16px;
-            font-weight:bold;
-            box-shadow:0 3px 6px rgba(0,0,0,0.15);
-            transition:background 0.3s, transform 0.2s;
-            min-width:160px;
-          ">⬇️ Download Results</button>
-        </div>
-      `;
-
-      // ✅ Hover effects
       const retakeBtn = document.getElementById("retakeTestBtn");
       const dlBtn = document.getElementById("downloadBtn");
 
@@ -461,9 +550,9 @@ if (resultsDiv) {
         btn.addEventListener("mouseout", () => (btn.style.background = "#1a3c57"));
       });
 
-      // ✅ Retake Test behavior
       retakeBtn.addEventListener("click", async () => {
-        if (confirm("Are you sure you want to retake the test? This will overwrite your previous results.")) {
+        const confirm = await showConfirm("Are you sure you want to retake the test? This will overwrite your previous results.");
+        if (confirm) {
           const user = auth.currentUser;
           if (user) {
             await deleteDoc(doc(db, "users", user.uid, "responses", "form1"));
@@ -474,7 +563,6 @@ if (resultsDiv) {
         }
       });
 
-      // ✅ Download Results behavior
       dlBtn.addEventListener("click", () => {
         const content = document.querySelector("#results").innerText;
         const blob = new Blob([content], { type: "text/plain" });
@@ -483,36 +571,22 @@ if (resultsDiv) {
         link.download = "result.txt";
         link.click();
       });
+    } else {
+      resultsDiv.innerHTML = `
+        <p style="text-align:center; margin:20px; font-size:16px; color:#333;">
+          You haven’t completed the test yet. Click below to start.
+        </p>
+        <div style="text-align:center; margin-top: 20px;">
+          <button id="startTestBtn" style="padding:14px 28px;background:#1a3c57;color:white;border:none;border-radius:10px;cursor:pointer;font-size:16px;font-weight:bold;box-shadow:0 3px 6px rgba(0,0,0,0.15);transition:background 0.3s, transform 0.2s;">🚀 Start Test</button>
+        </div>
+      `;
+      const startBtn = document.getElementById("startTestBtn");
+      startBtn.addEventListener("mouseover", () => (startBtn.style.background = "#245a80"));
+      startBtn.addEventListener("mouseout", () => (startBtn.style.background = "#1a3c57"));
+      startBtn.addEventListener("click", () => (window.location.href = "form1.html"));
     }
-    else {
-  // ✅ NEW block → show Start Test if no results exist
-  resultsDiv.innerHTML = `
-    <p style="text-align:center; margin:20px; font-size:16px; color:#333;">
-      You haven’t completed the test yet. Click below to start.
-    </p>
-    <div style="text-align:center; margin-top: 20px;">
-      <button id="startTestBtn" style="
-        padding:14px 28px;
-        background:#1a3c57;
-        color:white;
-        border:none;
-        border-radius:10px;
-        cursor:pointer;
-        font-size:16px;
-        font-weight:bold;
-        box-shadow:0 3px 6px rgba(0,0,0,0.15);
-        transition:background 0.3s, transform 0.2s;
-      ">🚀 Start Test</button>
-    </div>
-  `;
+  });
+}
 
-  const startBtn = document.getElementById("startTestBtn");
-  startBtn.addEventListener("mouseover", () => startBtn.style.background = "#245a80");
-  startBtn.addEventListener("mouseout", () => startBtn.style.background = "#1a3c57");
-  startBtn.addEventListener("click", () => {
-    window.location.href = "form1.html";
-  });
-}
-  });
-}
+
 
